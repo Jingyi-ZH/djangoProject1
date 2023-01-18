@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-ab**sdnqstg2qz$=##u@qb+fhl48=ris7=s-wgrnw&=ynfr7do
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["jingyi_user.onrender.com", '127.0.0.1']
+ALLOWED_HOSTS = ["jz3533app1.onrender.com", '127.0.0.1']
 
 
 # Application definition
@@ -86,7 +86,7 @@ WSGI_APPLICATION = "djangoProject1.wsgi.application"
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://postgres:postgres@localhost:5432/jingyi_user',
+    'default': dj_database_url.config(default='postgresql://postgres:postgres@localhost:5432/jz3533app1',
                                       conn_max_age =600)}
 
 
