@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-ab**sdnqstg2qz$=##u@qb+fhl48=ris7=s-wgrnw&=ynfr7do
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["jingyi.onrender.com", '127.0.0.1']
+ALLOWED_HOSTS = ["jz3533app1.onrender.com", '127.0.0.1']
 
 
 # Application definition
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware"
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -86,7 +86,7 @@ WSGI_APPLICATION = "djangoProject1.wsgi.application"
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://postgres:postgres@localhost:5432/jingyi',
+    'default': dj_database_url.config(default='postgresql://postgres:postgres@localhost:5432/jz3533app1',
                                       conn_max_age =600)}
 
 
@@ -118,7 +118,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR,"static")]
 
 # Default primary key field type
