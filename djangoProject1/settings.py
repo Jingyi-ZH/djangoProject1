@@ -81,9 +81,8 @@ WSGI_APPLICATION = "djangoProject1.wsgi.application"
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
+#         "NAME": BASE_DIR / "db.好",
 #     }
-# }
 
 DATABASES = {
     'default': dj_database_url.config(default='postgresql://postgres:postgres@localhost:5432/jz3533app1',
