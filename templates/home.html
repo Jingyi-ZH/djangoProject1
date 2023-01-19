@@ -6,9 +6,13 @@
     <title>title</title>
 </head>
 <body>
-    This is my <span style="color:#c70f43">wonderful</span> page
-<h1>current portfolio</h1>
-the time now is: {{ time }}
-    <img src="{% static "app1/img.png"%}" alt="">
+
+<img src="{% static "app1/logo.png" %}" alt="image" width="400px">
+<p>
+The time now is:{{ time }}
+</p>
+<p>
+    <a href="{% url 'currencies' %}">View Currency List</a>
+</p>
 </body>
 </html>
