@@ -10,4 +10,5 @@ class HoldingInLine(admin.TabularInline):
 class CurrencyAdmin(admin.ModelAdmin):
     fields = ('long_name','iso')
     inlines = [HoldingInLine]
+
 admin.site.register(Currency,CurrencyAdmin)

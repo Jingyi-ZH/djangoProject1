@@ -1,8 +1,11 @@
 from django.shortcuts import render
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from app1 import support_functions
 from app1.models import *
-
+from app1.models import Currency, AccountHolder
+from django.contrib.auth.forms import UserCreationForm
+import folium
 
 def home(request):
     data=dict()
@@ -12,10 +15,10 @@ def home(request):
     return render(request,"home.html",context=data)
 # Create your views here.
 
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+
 def maintenance(request):
     data = dict()
+    choice='NONE'
     try:
         choice = request.GET['selection']
         if choice == "currencies":
@@ -35,3 +38,95 @@ def view_currencies(request):
     c_list = Currency.objects.all()
     data['currencies'] = c_list
     return render(request,'currencies.html',context=data)
+def currency_selection(request):
+    data = dict()
+    currencies =Currency.objects.all()
+    data['currencies'] = currencies
+    return render(request,"currency_selector.html",data)
+
+def exch_rate(request):
+    data=dict()
+    print(request)
+    try:
+        currency1 = request.GET['currency_from']
+        currency2 = request.GET['currency_to']
+        c1 = Currency.objects.get(iso=currency1)
+        c2 = Currency.objects.get(iso=currency2)
+        print(c1)
+        print(type(c1))
+        support_functions.update_xrates(c1)
+        data['currency1'] = c1
+        data['currency2'] = c2
+        try:
+            user = request.user
+            if user.is_authenticated:
+                account_holder = AccountHolder.objects.get(user=user)
+                account_holder.currencies_visited.add(c1)
+                account_holder.currencies_visited.add(c2)
+                data['currencies_visited'] = account_holder.currencies_visited.all()
+        except:
+            data['rate'] = "Not Available"
+    except:
+        print('here')
+        pass
+    return render(request,"exchange_detail.html",data)
+
+def register_new_user(request):
+    context = dict()
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+        new_user = form.save()
+        dob = request.POST["dob"]
+        acct_holder = AccountHolder(user=new_user, date_of_birth=dob)
+        acct_holder.save()
+        return render(request, "home.html", context=dict())
+    else:
+        form = UserCreationForm()
+        context['form'] = form
+        return render(request, "registration/register.html", context)
+
+def map(request):
+    data = dict()
+    m = folium.Map()
+    # activate the reset button
+    try:
+        request.GET['reset']
+        print("resetting")
+        data['number_of_cities'] = 0
+        data['m'] = m._repr_html_
+        return render(request, "map.html", context=data)
+    except:
+        pass
+    # create the markers
+    try:
+        request.GET['city_list']
+        number_of_cities = int(request.GET['number_of_cities'])
+        visiting_cities = list()
+        for i in range(number_of_cities):
+            name = "city" + str(i + 1)
+            city_name = request.GET[name]
+            visiting_cities.append(city_name)
+        m = support_functions.add_markers(m, visiting_cities)
+        data['visiting_cities'] = visiting_cities
+        print('here')
+        m = m._repr_html_
+        data['m'] = m
+        return render(request, "map.html", data)
+    except:
+        pass
+    # get city names and number of city code
+    try:
+        number_of_cities = int(request.GET["number_of_cities"])
+        if number_of_cities > 0:
+            names = list()
+            for i in range(number_of_cities):
+                names.append("city" + str(i + 1))
+            data['names'] = names
+            data['number_of_cities'] = number_of_cities
+        m = m._repr_html_
+        data['m'] = m
+    except:
+        data['number_of_cities'] = 0
+        m = m._repr_html_
+        data['m'] = m
+    return render(request, "map.html", context=data)
