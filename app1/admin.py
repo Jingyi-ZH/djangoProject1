@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+# testing
 # Register your models here.
 from django.contrib import admin # Register your models here.
 from app1.models import Currency, Holding
